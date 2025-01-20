@@ -1,42 +1,23 @@
-
 name: Deploy Loginwebdriver
 
 on:
   push:
-    branches:
-      - main
-
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+permissions:
+  contents: write
+  
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout Code
+      uses: actions/checkout@v3
 
-      - name: Configure Git
-        run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-
-      - name: Deploy Loginwebdriver
-        run: |
-          git checkout main
-          cp -r Loginwebdriver/* .
-          git add .
-          git commit -m "Deploying reports via GitHub Actions"
-          git push origin main
-name: CI Test
-
-on:
-  workflow_dispatch:
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
-      - name: Run a simple script
-        run: echo "GitHub Actions is working!"
+    - name: Run Loginwebdriver Deployer
+      uses: ./  # Use the action defined in the repository
+      with:
+        branch: main
+        folder: ./Loginwebdriver
