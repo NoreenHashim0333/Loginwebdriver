@@ -1,0 +1,25 @@
+name: Test Workflow
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '22' # Change to your project's Java version
+
+      - name: Run Tests
+        run: |
+          echo "Running tests"
+          mvn test
